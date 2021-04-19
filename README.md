@@ -1,6 +1,6 @@
 # DFtube (Distraction Free YouTube™)
 
-Android app that removes all distracting features of youtube:
+Unofficial Android YouTube app without all the distracting features:
 - home feed
 - featured feed
 - video recommendations
