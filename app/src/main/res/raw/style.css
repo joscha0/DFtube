@@ -32,9 +32,14 @@ ytm-item-section-renderer[data-content-type="related"] {
 
 /* dark theme */
 
-body, html, div, .mobile-topbar-header, ytm-pivot-bar-renderer[role="tablist"] , .engagement-panel-section-list-header, ytm-section-list-renderer, ytm-channel-list-sub-menu-renderer{
-    color: white;
+body, html, div, h1, h2, h3, .mobile-topbar-header, ytm-pivot-bar-renderer[role="tablist"] , .engagement-panel-section-list-header, ytm-section-list-renderer, ytm-channel-list-sub-menu-renderer{
+    color: white !important;
     background-color: black!important;
+}
+
+/* fix over dark */
+#player-control-overlay, .player-controls-background, #player-container-id, #player, .player-controls-top, .player-controls-middle, .player-controls-bottom, .progress-bar-line {
+    background-color:transparent!important;
 }
 
 .secondary-text {
@@ -67,4 +72,22 @@ input[type="email"], input[type="password"] {
 /* remove full screen icon */
 .fullscreen-icon {
     opacity: 0;
+}
+
+/* change progress bar color */
+.thumbnail-overlay-resume-playback-progress, .progress-bar-played, .progress-bar-playhead-dot {
+    background-color: blue!important;
+}
+
+.progress-bar-background  {
+    background-color: white!important;
+}
+
+.progress-bar-loaded {
+    background-color: red!important;
+}
+
+.progress-bar-playhead, .progress-bar-playhead-wrapper
+{
+    background-color: transparent !important;
 }
