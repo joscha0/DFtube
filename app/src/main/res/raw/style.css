@@ -1,5 +1,5 @@
 /* remove bottom app bar home and trending */
-.pivot-w2w, .pivot-trending{
+.pivot-w2w, .pivot-trending, .pivot-explore{
     display: none!important;
 
 }
@@ -32,7 +32,7 @@ ytm-item-section-renderer[data-content-type="related"] {
 
 /* dark theme */
 
-body, html, .mobile-topbar-header, ytm-pivot-bar-renderer[role="tablist"] , .engagement-panel-section-list-header, ytm-section-list-renderer{
+body, html, div, .mobile-topbar-header, ytm-pivot-bar-renderer[role="tablist"] , .engagement-panel-section-list-header, ytm-section-list-renderer, ytm-channel-list-sub-menu-renderer{
     color: white;
     background-color: black!important;
 }
@@ -48,6 +48,7 @@ ytm-pivot-bar-renderer c3-icon,  ytm-pivot-bar-item-renderer .pivot-bar-item-tab
 #home-icon,
 .mobile-topbar-header-content,
 input,
+.title,
 .mobile-topbar-back-arrow,
 .slim-video-metadata-info,
 .slim-video-metadata-actions,
@@ -63,8 +64,7 @@ input[type="email"], input[type="password"] {
     color: #000!important;
 }
 
-/* remove full screen icon*/
+/* remove full screen icon */
 .fullscreen-icon {
     opacity: 0;
 }
-
