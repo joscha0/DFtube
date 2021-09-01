@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import com.izikode.izilib.veinview.VeinView
-import com.izikode.izilib.veinview.defaultClient
+import com.izikode.izilib.veinview.VeinViewClient
+import com.izikode.izilib.veinview.VeinViewInjector
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,8 +19,21 @@ class MainActivity : AppCompatActivity() {
 
         WebView.setWebContentsDebuggingEnabled(true)
 
-        veinView.setVeinViewClient(defaultClient { injector, page ->
-            injector.injectCSS(R.raw.style)
+        veinView.setVeinViewClient(object: VeinViewClient() {
+            override fun onReadyToInject(injector: VeinViewInjector, page: String) {
+                injector.injectCSS(R.raw.style)
+                injector.injectJS(R.raw.main)
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                if (url.contains("m.youtube.com")) {
+                    view.loadUrl(url)
+                } else {
+                    val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(i)
+                }
+                return true
+            }
         })
 
         veinView.setInitialScale(1)
