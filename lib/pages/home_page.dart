@@ -1,3 +1,4 @@
+import 'package:dftube/widgets/settings_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,11 @@ class HomePage extends GetView<HomeController> {
                     onEnterFullscreen: (webController) {
                       controller.enterFullscreen(webController, context);
                     },
+                    onLoadStop: (webController, url) async {
+                      String css = controller.getHideCss();
+                      await controller.webViewController
+                          .injectCSSCode(source: css);
+                    },
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +56,18 @@ class HomePage extends GetView<HomeController> {
                       ),
                     ],
                   ),
+            // floatingActionButton: Padding(
+            //   padding: const EdgeInsets.only(bottom: 28.0),
+            //   child: FloatingActionButton.small(
+            //     onPressed: () {
+            //       Get.bottomSheet(
+            //         SettingsBottomSheet(
+            //             webViewController: controller.webViewController),
+            //       );
+            //     },
+            //     child: const Icon(Icons.settings),
+            //   ),
+            // ),
           ),
         );
       },

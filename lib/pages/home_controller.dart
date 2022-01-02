@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
@@ -20,6 +21,13 @@ class HomeController extends GetxController {
   late StreamSubscription<ConnectivityResult> subscription;
 
   RxBool hasInternet = true.obs;
+
+  final box = GetStorage();
+  RxBool get hide => RxBool(box.read("cssHide") ?? true);
+
+  void setHide(String key, bool value) {
+    box.write(key, value);
+  }
 
   @override
   void onInit() async {
@@ -119,5 +127,47 @@ class HomeController extends GetxController {
       ));
     }
     return false;
+  }
+
+  String cssHide = """
+/* remove bottom app bar home and trending */
+.pivot-w2w, .pivot-trending, .pivot-explore{
+    display: none!important;
+
+}
+
+/* increase width app bar buttons */
+.pivot-subs{
+width: 50%;
+    position: absolute;
+    left: 0;
+    padding-top: 5px;
+}
+.pivot-library{
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    padding-top: 5px;
+}
+
+/* hide home feed */
+div[tab-identifier="FEwhat_to_watch"] {
+    display: none!important;
+}
+
+
+/* hide featured feed */
+ytm-item-section-renderer[data-content-type="related"] {
+    display: none!important;
+}
+""";
+
+  String getHideCss() {
+    String css = "";
+
+    // if (hide.value) {
+    css += cssHide;
+    // }
+    return css;
   }
 }
