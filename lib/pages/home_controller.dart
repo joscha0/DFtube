@@ -9,6 +9,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni_links/uni_links.dart';
 
 class HomeController extends GetxController {
   final String url = "https://m.youtube.com/";
@@ -21,6 +22,10 @@ class HomeController extends GetxController {
   late StreamSubscription<ConnectivityResult> subscription;
 
   RxBool hasInternet = true.obs;
+
+  Uri get defaultUrl =>
+      Get.isPlatformDarkMode ? Uri.parse(url + "?theme=dark") : Uri.parse(url);
+  late StreamSubscription _sub;
 
   final box = GetStorage();
   RxBool get hide => RxBool(box.read("cssHide") ?? true);
@@ -43,12 +48,38 @@ class HomeController extends GetxController {
         subscription.cancel();
       }
     });
+    initUniLinks();
   }
 
   @override
   void onClose() {
     super.onClose();
     subscription.cancel();
+    _sub.cancel();
+  }
+
+  Future<void> initUniLinks() async {
+    String? initialUrl;
+    try {
+      initialUrl = await getInitialLink();
+      if (initialUrl != null) {
+        webViewController.loadUrl(
+            urlRequest: URLRequest(
+                url: Get.isPlatformDarkMode
+                    ? Uri.parse(initialUrl + "&theme=dark")
+                    : Uri.parse(initialUrl)));
+      }
+    } on PlatformException {}
+    _sub = linkStream.listen((String? uri) {
+      log(uri.toString());
+      if (uri != null) {
+        webViewController.loadUrl(
+            urlRequest: URLRequest(
+                url: Get.isPlatformDarkMode
+                    ? Uri.parse(uri + "&theme=dark")
+                    : Uri.parse(uri)));
+      }
+    }, onError: (err) {});
   }
 
   void updateDislike(
