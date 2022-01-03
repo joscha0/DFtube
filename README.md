@@ -1,16 +1,15 @@
-# dftube
+# DFtube (Distraction Free YouTube™)
 
-A new Flutter project.
+Unofficial YouTube app without all the distracting features:
+- No home feed
+- No featured feed
+- No video recommendations
 
-## Getting Started
+Inspired by the popular [chrome extension](https://chrome.google.com/webstore/detail/df-tube-distraction-free/mjdepdfccjgcndkmemponafgioodelna?hl=en)
 
-This project is a starting point for a Flutter application.
+Comes with with automatic dark/light mode (restart required)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p>
+  <img src="https://i.postimg.cc/bJ21k5Zh/Screenshot-20220103-010711.jpg" width="25%" />
+  <img src="https://i.postimg.cc/5trwHJNg/Screenshot-20220103-010837.jpg" width="25%" /> 
+</p>
