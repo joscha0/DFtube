@@ -9,6 +9,8 @@ Inspired by the popular [chrome extension](https://chrome.google.com/webstore/de
 
 Comes with with automatic dark/light mode (restart required)
 
+- Dislike data from https://returnyoutubedislike.com/
+
 <p>
   <img src="https://i.postimg.cc/bJ21k5Zh/Screenshot-20220103-010711.jpg" width="25%" />
   <img src="https://i.postimg.cc/5trwHJNg/Screenshot-20220103-010837.jpg" width="25%" /> 
