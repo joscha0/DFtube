@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dftube/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -41,21 +42,51 @@ class _HomePageState extends State<HomePage> {
   void setConnectionStatus() async {
     isConnected = await InternetConnectionChecker().hasConnection;
     listener = InternetConnectionChecker().onStatusChange.listen(
-      (InternetConnectionStatus status) {
+      (InternetConnectionStatus status) async {
         switch (status) {
           case InternetConnectionStatus.connected:
+            snackbarKey.currentState?.hideCurrentSnackBar();
             setState(() {
               isConnected = true;
             });
             break;
           case InternetConnectionStatus.disconnected:
             print(webViewController.getUrl());
-            // setState(() {
-            isConnected = false;
-            // });
+            Uri? url = await webViewController.getUrl();
+            if (url?.host == "m.youtube.com") {
+              isConnected = false;
+              showSnackBar();
+            } else {
+              setState(() {
+                isConnected = false;
+              });
+            }
+
             break;
         }
       },
+    );
+  }
+
+  void showSnackBar() {
+    snackbarKey.currentState?.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(hours: 1),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: const [
+            Text('No internet connection'),
+            SizedBox(
+              height: 15,
+              width: 15,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

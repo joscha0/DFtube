@@ -1,3 +1,4 @@
+import 'package:dftube/globals.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: snackbarKey,
       theme: ThemeData(
         backgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSwatch().copyWith(
