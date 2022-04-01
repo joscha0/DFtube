@@ -18,7 +18,7 @@ class HomePage extends GetView<HomeController> {
             appBar: AppBar(
               toolbarHeight: 0,
             ),
-            body: controller.hasInternet.value
+            body: controller.isConnected.value
                 ? InAppWebView(
                     key: controller.webViewKey,
                     initialUrlRequest: URLRequest(url: controller.defaultUrl),

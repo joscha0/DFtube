@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:uni_links/uni_links.dart';
 
 class HomeController extends GetxController {
@@ -19,8 +19,6 @@ class HomeController extends GetxController {
 
   late InAppWebViewController webViewController;
 
-  late StreamSubscription<ConnectivityResult> subscription;
-
   RxBool hasInternet = true.obs;
 
   Uri get defaultUrl =>
@@ -30,31 +28,39 @@ class HomeController extends GetxController {
   final box = GetStorage();
   RxBool get hide => RxBool(box.read("cssHide") ?? true);
 
+  RxBool isConnected = false.obs;
+  late final StreamSubscription<InternetConnectionStatus> listener;
+
   void setHide(String key, bool value) {
     box.write(key, value);
   }
 
+  void setConnectionStatus() async {
+    isConnected.value = await InternetConnectionChecker().hasConnection;
+    listener = InternetConnectionChecker().onStatusChange.listen(
+      (InternetConnectionStatus status) {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            isConnected.value = true;
+            break;
+          case InternetConnectionStatus.disconnected:
+            // isConnected.value = false;
+            break;
+        }
+      },
+    );
+  }
+
   @override
   void onInit() async {
+    setConnectionStatus();
     super.onInit();
-    ConnectivityResult connectivityResult =
-        await (Connectivity().checkConnectivity());
-    hasInternet.value = connectivityResult != ConnectivityResult.none;
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      if (result != ConnectivityResult.none) {
-        hasInternet.value = true;
-        subscription.cancel();
-      }
-    });
     initUniLinks();
   }
 
   @override
   void onClose() {
     super.onClose();
-    subscription.cancel();
     _sub.cancel();
   }
 
@@ -162,7 +168,7 @@ class HomeController extends GetxController {
 
   String cssHide = """
 /* remove bottom app bar home and trending */
-.pivot-w2w, .pivot-trending, .pivot-explore{
+.pivot-w2w, .pivot-trending, .pivot-explore, .pivot-shorts{
     display: none!important;
 
 }
