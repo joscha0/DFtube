@@ -1,7 +1,5 @@
-import 'package:dftube/pages/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:get/get.dart';
 
 class SettingsBottomSheet extends StatefulWidget {
   InAppWebViewController? webViewController;
@@ -17,16 +15,9 @@ class SettingsBottomSheet extends StatefulWidget {
 class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
   late bool hide;
 
-  HomeController controller = HomeController();
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      init: controller,
-      initState: (ctr) {
-        hide = controller.hide.value;
-      },
-      builder: (_) => (Container(
+    return Container(
         color: Theme.of(context).backgroundColor,
         child: Wrap(
           children: [
@@ -45,9 +36,9 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
                       setState(() {
                         hide = value;
                       });
-                      controller.setHide("cssHide", value);
-                      widget.webViewController
-                          ?.injectCSSCode(source: controller.getHideCss());
+                      // controller.setHide("cssHide", value);
+                      // widget.webViewController
+                      // ?.injectCSSCode(source: controller.getHideCss());
                       widget.webViewController?.reload();
                     },
                   ),
@@ -55,8 +46,6 @@ class _SettingsBottomSheetState extends State<SettingsBottomSheet> {
               ),
             ),
           ],
-        ),
-      )),
-    );
+        ));
   }
 }
